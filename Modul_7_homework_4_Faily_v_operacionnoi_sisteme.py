@@ -1,15 +1,13 @@
 import os
+import time
 
 directory = 'C:\\Windows\\help'
 
-# Используем os.walk для обхода каталога, путь к которому указывает переменная directory
-for dirpath, dirnames, filenames in os.walk(directory):
-    print(dirpath, dirnames, filenames)
-
-os.path.join(directory) # Применяем os.path.join для формирования полного пути к файлам.
-
-os.path.getmtime(directory) # Получаем дату модификации файла.
-
-os.path.getsize(directory) # Получаем размера файла.
-
-os.path.dirname(directory) # получить родительскую директорию
+for root, dirs, files in os.walk(directory):
+  for file in files:
+    filepath = os.path.join(root, file)
+    filetime = os.path.getmtime(filepath)
+    formatted_time = time.strftime("%d.%m.%Y %H:%M", time.localtime(filetime))
+    filesize = os.path.getsize(filepath)
+    parent_dir = os.path.dirname(filepath)
+    print(f'Обнаружен файл: {file}, Путь: {filepath}, Размер: {filesize} байт, Время изменения: {formatted_time}, Родительская директория: {parent_dir}')
